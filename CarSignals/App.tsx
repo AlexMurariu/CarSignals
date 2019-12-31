@@ -5,6 +5,7 @@ import { LoginScreen, SignUpScreen, DefaultScreen } from './screens';
 import { Provider } from 'react-redux'
 import { store } from './state/store';
 import LoginContainer from './screens/LoginContainer';
+import NavigationService from './navigation/NavigationService';
 
 const StackNavigator = createStackNavigator(
   {
@@ -28,7 +29,10 @@ const AppContainer = createAppContainer(StackNavigator);
 export default class App extends React.Component {
   render() {
     return <Provider store={store}>
-      <AppContainer />
+      <AppContainer ref={navigatorRef => {
+        NavigationService.setTopLevelNavigator(navigatorRef)
+      }}
+      />
     </Provider>;
   }
 }

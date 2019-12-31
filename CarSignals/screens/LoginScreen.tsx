@@ -3,6 +3,7 @@ import { View, StyleSheet, Alert } from 'react-native';
 import { Button, Card, TextInput } from 'react-native-paper';
 import Firebase from '../firebase.config';
 import { UserProps } from './types';
+import NavigationService from '../navigation/NavigationService';
 
 class Login extends React.Component<UserProps> {
     state = {
@@ -16,7 +17,7 @@ class Login extends React.Component<UserProps> {
         // Alert.alert(this.props.user.email, this.props.user.password);
         Firebase.auth()
             .signInWithEmailAndPassword(email, password)
-            // .then(() => Alert.alert('USER ' + this.props.user.email + '\n ' + 'PASS ' + this.props.user.password))
+            .then(() => NavigationService.navigate('Home'))
             .catch(error => console.log(error))
     }
 
@@ -51,7 +52,7 @@ class Login extends React.Component<UserProps> {
                         </Button>
                         <Button 
                             style={styles.buttons} 
-                            // onPress={() => this.props.navigation.navigate('SignUp')}
+                            onPress={() => NavigationService.navigate('SignUp')}
                         >
                             Don't have an account yet? Sign up
                         </Button>
@@ -80,4 +81,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Login
+export default Login;
