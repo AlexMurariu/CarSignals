@@ -1,20 +1,22 @@
-import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import React from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
 import { Button, Card, TextInput } from 'react-native-paper';
 import Firebase from '../firebase.config';
+import { UserProps } from './types';
 
-class Signup extends React.Component {
+class Login extends React.Component<UserProps> {
     state = {
         email: '',
-        password: '',
-        confirmPassowrd: ''
+        password: ''
     }
 
-    handleSignUp = () => {
+    handleLogin = () => {
         const { email, password } = this.state
+        this.props.login(email, password);
+        // Alert.alert(this.props.user.email, this.props.user.password);
         Firebase.auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => this.props.navigation.navigate('Home'))
+            .signInWithEmailAndPassword(email, password)
+            // .then(() => Alert.alert('USER ' + this.props.user.email + '\n ' + 'PASS ' + this.props.user.password))
             .catch(error => console.log(error))
     }
 
@@ -39,27 +41,19 @@ class Signup extends React.Component {
                             placeholder='Password'
                             secureTextEntry={true}
                         />
-                        <TextInput
-                            style={styles.inputs}
-                            mode='outlined'
-                            value={this.state.confirmPassowrd}
-                            onChangeText={confirmPassowrd => this.setState({ confirmPassowrd })}
-                            placeholder='Confirm password'
-                            secureTextEntry={true}
-                        />
                         <Button 
-                            icon='account-plus' 
+                            icon='login' 
                             style={styles.buttons} 
-                            mode='contained'  
-                            onPress={this.handleSignUp}
+                            mode='contained' 
+                            onPress={this.handleLogin}
                         >
-                            Sign up
+                            Login
                         </Button>
                         <Button 
                             style={styles.buttons} 
-                            onPress={() => this.props.navigation.navigate('Login')}
+                            // onPress={() => this.props.navigation.navigate('SignUp')}
                         >
-                            Already have an account? Login
+                            Don't have an account yet? Sign up
                         </Button>
                     </Card.Content>
                 </Card>
@@ -76,14 +70,14 @@ const styles = StyleSheet.create({
         height: '100%'
     },
     card: {
-        height: '50%'
+        height: '40%'
     },
     inputs: {
-        marginVertical: 5,
+        marginVertical: 5
     },
     buttons: {
         marginVertical: 10
     }
 })
 
-export default Signup
+export default Login
