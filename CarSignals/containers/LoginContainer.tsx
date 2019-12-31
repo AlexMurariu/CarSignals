@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import { RootState } from "../state/reducers";
-import Login from "./LoginScreen";
-import { UserDataState, UserDispatch } from "./types";
+import { UserDataState, UserDispatch } from "../components/login/types";
 import { Dispatch, bindActionCreators } from "redux";
-import { login, signUp } from '../state/actions/authActions';
+import { login } from '../state/actions/authActions';
+import { LoginComponent } from "../components";
 
 function mapStateToProps (state: RootState): UserDataState {
     const user = state.auth;
@@ -16,10 +16,9 @@ function mapStateToProps (state: RootState): UserDataState {
 function mapDispatchToProps (dispatch: Dispatch): UserDispatch {
     return {
         ...bindActionCreators({
-            login,
-            signUp
+            login
         }, dispatch)
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);

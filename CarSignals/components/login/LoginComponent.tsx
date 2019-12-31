@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Button, Card, TextInput } from 'react-native-paper';
 import { UserProps } from './types';
-import NavigationService from '../navigation/NavigationService';
+import NavigationService from '../../navigation/NavigationService';
+import { styles } from './style';
 
-class Login extends React.Component<UserProps> {
+export default class LoginComponent extends React.Component<UserProps> {
     state = {
         email: '',
         password: ''
@@ -60,23 +61,3 @@ class Login extends React.Component<UserProps> {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%'
-    },
-    card: {
-        height: '40%'
-    },
-    inputs: {
-        marginVertical: 5
-    },
-    buttons: {
-        marginVertical: 10
-    }
-})
-
-export default Login;

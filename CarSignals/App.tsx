@@ -1,19 +1,19 @@
 import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import { LoginScreen, SignUpScreen, DefaultScreen } from './screens';
+import { SignUpComponent, DefaultScreen } from './components';
 import { Provider } from 'react-redux'
 import { store } from './state/store';
-import LoginContainer from './screens/LoginContainer';
+import { LoginContainer } from './containers';
 import NavigationService from './navigation/NavigationService';
 
 const StackNavigator = createStackNavigator(
   {
-    SignUp: {
-      screen: SignUpScreen
-    },
     Login: {
       screen: LoginContainer
+    },
+    SignUp: {
+      screen: SignUpComponent
     },
     Home: {
       screen: DefaultScreen
