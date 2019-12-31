@@ -1,12 +1,17 @@
 import { makeRootReducer } from './reducers';
-import { UserState, authReducer } from "./reducers/authReducer";
-import { combineReducers, createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import thunk from 'redux-thunk';
+import { createEpicMiddleware } from 'redux-observable';
+import { rootEpic } from './epics';
 
-export type AppState = {
-    user: UserState
+function configureStore() {
+    const epicMiddleware = createEpicMiddleware();
+    const middleware = applyMiddleware(epicMiddleware);
+    const store = createStore(makeRootReducer(), middleware);
+    
+    epicMiddleware.run(rootEpic);
+
+    return store;
 }
 
-const middleware = applyMiddleware(thunk);
-
-export const store = createStore(makeRootReducer(), middleware);
+export const store = configureStore();

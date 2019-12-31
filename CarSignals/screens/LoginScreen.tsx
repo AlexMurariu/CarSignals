@@ -15,10 +15,10 @@ class Login extends React.Component<UserProps> {
         const { email, password } = this.state
         this.props.login(email, password);
         // Alert.alert(this.props.user.email, this.props.user.password);
-        Firebase.auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(() => NavigationService.navigate('Home'))
-            .catch(error => console.log(error))
+        // Firebase.auth()
+        //     .signInWithEmailAndPassword(email, password)
+        //     .then(() => NavigationService.navigate('Home'))
+        //     .catch(error => console.log(error))
     }
 
     render() {

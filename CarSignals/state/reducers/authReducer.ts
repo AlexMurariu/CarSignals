@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import { UserActions } from './../actions/authActions';
 import { Record } from 'immutable';
 import { actionTypes } from '../types';
@@ -22,9 +23,14 @@ const initialState: UserState = new UserState({ email: '', password: ''});
 
 const authReducer = (state: UserState = initialState, action: UserActions) => {
     switch (action.type) {
-        case actionTypes.LOGIN_STARTED: {
+        case actionTypes.LOGIN_SUCCESS: {
             const { email, password } = action.payload
             return new UserState({ email, password });
+        }
+
+        case actionTypes.LOGIN_FAILED: {
+            Alert.alert('Waaaa');
+            return state;
         }
         
         case actionTypes.SIGNUP_STARTED: {
