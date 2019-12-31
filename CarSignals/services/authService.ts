@@ -1,6 +1,5 @@
-import { loginSuccess, loginFailed } from './../state/actions/authActions';
+import { loginSuccess, loginFailed } from './../state/actions';
 import Firebase from '../firebase.config';
-import { Alert } from 'react-native';
 
 class AuthService {
     static myInstance: AuthService;

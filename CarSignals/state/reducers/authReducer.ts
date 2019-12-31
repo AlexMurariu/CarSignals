@@ -1,5 +1,4 @@
-import { Alert } from 'react-native';
-import { UserActions } from './../actions/authActions';
+import { UserActions } from './../actions';
 import { Record } from 'immutable';
 import { actionTypes } from '../types';
 
@@ -29,7 +28,6 @@ const authReducer = (state: UserState = initialState, action: UserActions) => {
         }
 
         case actionTypes.LOGIN_FAILED: {
-            Alert.alert('Waaaa');
             return state;
         }
         

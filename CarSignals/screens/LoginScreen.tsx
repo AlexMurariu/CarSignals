@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Button, Card, TextInput } from 'react-native-paper';
-import Firebase from '../firebase.config';
 import { UserProps } from './types';
 import NavigationService from '../navigation/NavigationService';
 
@@ -13,12 +12,11 @@ class Login extends React.Component<UserProps> {
 
     handleLogin = () => {
         const { email, password } = this.state
-        this.props.login(email, password);
-        // Alert.alert(this.props.user.email, this.props.user.password);
-        // Firebase.auth()
-        //     .signInWithEmailAndPassword(email, password)
-        //     .then(() => NavigationService.navigate('Home'))
-        //     .catch(error => console.log(error))
+
+        if (email && password) {
+            this.props.login(email, password);
+            NavigationService.navigate('Home');
+        }
     }
 
     render() {

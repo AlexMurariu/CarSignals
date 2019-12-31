@@ -1,6 +1,4 @@
 import { actionTypes } from "../types";
-import { createAction } from 'typesafe-actions';
-import { Alert } from "react-native";
 
 export type LoginStartedAction = {
     type: string;

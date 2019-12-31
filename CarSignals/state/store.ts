@@ -1,6 +1,5 @@
 import { makeRootReducer } from './reducers';
 import { createStore, applyMiddleware } from "redux";
-import thunk from 'redux-thunk';
 import { createEpicMiddleware } from 'redux-observable';
 import { rootEpic } from './epics';
 

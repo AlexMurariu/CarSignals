@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import { Epic, ActionsObservable } from "redux-observable";
 import 'rxjs';
 import { actionTypes } from '../types';
@@ -16,7 +15,6 @@ export const AuthEpic: Epic<Action, Action> = (action$, state$) =>
     action$.pipe(
         filter(isOfType(actionTypes.LOGIN_STARTED)),
         switchMap((action): Promise<any> => {
-            // debugger;
             const { email, password } = action.payload;
             return AuthService.loginUser(email, password);
         })
