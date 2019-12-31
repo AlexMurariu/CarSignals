@@ -20,10 +20,22 @@ export type SignUpStartedAction = {
     payload: any;
 }
 
+export type SignUpSuccessAction = {
+    type: string;
+    payload: any;
+}
+
+export type SignUpFailedAction = {
+    type: string;
+    payload: any;
+}
+
 export type UserActions = LoginStartedAction | 
                             LoginSuccessAction | 
                             LoginFailedAction | 
-                            SignUpStartedAction;
+                            SignUpStartedAction |
+                            SignUpSuccessAction |
+                            SignUpFailedAction;
 
 export const login = (email: string, password: string): LoginStartedAction => {
     return {
@@ -58,4 +70,17 @@ export const signUp = (email: string, password: string): SignUpStartedAction => 
         email,
         password
     }
+})
+
+export const signUpSuccess = (email: string, password: string): SignUpSuccessAction => ({
+    type: actionTypes.SIGNUP_SUCCESS,
+    payload: {
+        email,
+        password
+    }
+})
+
+export const signUpFailed = (): SignUpFailedAction => ({
+    type: actionTypes.SIGNUP_FAILED,
+    payload: null
 })

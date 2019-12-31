@@ -1,11 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Button, Card, TextInput } from 'react-native-paper';
-import { UserProps } from './types';
+import { LoginUserProps } from './types';
 import NavigationService from '../../navigation/NavigationService';
-import { styles } from './style';
+import { styles } from './LoginComponentStyle';
 
-export default class LoginComponent extends React.Component<UserProps> {
+export default class LoginComponent extends React.Component<LoginUserProps> {
     state = {
         email: '',
         password: ''

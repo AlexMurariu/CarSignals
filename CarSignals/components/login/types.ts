@@ -1,11 +1,11 @@
 import { UserState } from "../../state/reducers/authReducer";
 
-export interface UserDataState {
+export interface LoginUserDataState {
     user: UserState,
 }
 
-export interface UserDispatch {
+export interface LoginUserDispatch {
     login: Function
 }
 
-export type UserProps = UserDataState & UserDispatch;
+export type LoginUserProps = LoginUserDataState & LoginUserDispatch;

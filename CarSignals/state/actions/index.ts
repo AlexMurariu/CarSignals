@@ -1,10 +1,12 @@
-import { login, loginSuccess, loginFailed, signUp, UserActions } from './authActions';
+import { login, loginSuccess, loginFailed, signUp, UserActions, signUpSuccess, signUpFailed } from './authActions';
 
 export {
     login,
     loginSuccess,
     loginFailed,
-    signUp
+    signUp,
+    signUpSuccess,
+    signUpFailed
 }
 
 export {

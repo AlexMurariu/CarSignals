@@ -1,4 +1,4 @@
-import { loginSuccess, loginFailed } from './../state/actions';
+import { loginSuccess, loginFailed, signUpSuccess, signUpFailed  } from './../state/actions';
 import Firebase from '../firebase.config';
 
 class AuthService {
@@ -19,6 +19,17 @@ class AuthService {
                     })
                     .catch((error) => {
                         return loginFailed();
+                    })
+    }
+
+    signUpUser(email: string, password: string): Promise<any> {
+        return Firebase.auth()
+                    .createUserWithEmailAndPassword(email, password)
+                    .then(() => {
+                        return signUpSuccess(email, password);
+                    })
+                    .catch((error) => {
+                        return signUpFailed();
                     })
     }
 }

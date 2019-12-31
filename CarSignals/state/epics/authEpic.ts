@@ -11,11 +11,20 @@ interface Action {
     params?: {}
 }
 
-export const AuthEpic: Epic<Action, Action> = (action$, state$) => 
+export const LoginEpic: Epic<Action, Action> = (action$, state$) => 
     action$.pipe(
         filter(isOfType(actionTypes.LOGIN_STARTED)),
         switchMap((action): Promise<any> => {
             const { email, password } = action.payload;
             return AuthService.loginUser(email, password);
+        })
+    )
+
+export const SignUpEpic: Epic<Action, Action> = (action$, state$) =>
+    action$.pipe(
+        filter(isOfType(actionTypes.SIGNUP_STARTED)),
+        switchMap((action): Promise<any> => {
+            const { email, password } = action.payload;
+            return AuthService.signUpUser(email, password);
         })
     )

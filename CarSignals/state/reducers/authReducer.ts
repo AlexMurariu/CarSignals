@@ -31,9 +31,13 @@ const authReducer = (state: UserState = initialState, action: UserActions) => {
             return state;
         }
         
-        case actionTypes.SIGNUP_STARTED: {
+        case actionTypes.SIGNUP_SUCCESS: {
             const { email, password } = action.payload
             return new UserState({ email, password });
+        }
+
+        case actionTypes.SIGNUP_FAILED: {
+            return state;
         }
 
         default: {

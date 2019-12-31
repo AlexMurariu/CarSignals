@@ -1,27 +1,32 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 import { Button, Card, TextInput } from 'react-native-paper';
-import Firebase from '../../firebase.config';
-import { NavigationStackProp } from 'react-navigation-stack';
+import { styles } from './SignUpComponentStyle';
+import { SignUpUserProps } from './types';
+import NavigationService from '../../navigation/NavigationService';
 
-type SignUpProps = {
-    navigation: NavigationStackProp<{}>
-}
-
-
-export default class SignupComponent extends React.Component<SignUpProps> {
+export default class SignupComponent extends React.Component<SignUpUserProps> {
     state = {
         email: '',
         password: '',
         confirmPassowrd: ''
     }
 
+    componentDidMount = () => {
+        const { email, password } = this.props.user;
+        
+        if (email && password) {
+            this.setState({email, password})
+        }
+    }
+
     handleSignUp = () => {
         const { email, password } = this.state
-        Firebase.auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => this.props.navigation.navigate('Home'))
-            .catch(error => console.log(error))
+
+        if (email && password) {
+            this.props.signUp(email, password);
+            NavigationService.navigate('Home');
+        }
     }
 
     render() {
@@ -63,7 +68,7 @@ export default class SignupComponent extends React.Component<SignUpProps> {
                         </Button>
                         <Button 
                             style={styles.buttons} 
-                            onPress={() => this.props.navigation.navigate('Login')}
+                            onPress={() => NavigationService.navigate('Login')}
                         >
                             Already have an account? Login
                         </Button>
@@ -73,21 +78,3 @@ export default class SignupComponent extends React.Component<SignUpProps> {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%'
-    },
-    card: {
-        height: '50%'
-    },
-    inputs: {
-        marginVertical: 5,
-    },
-    buttons: {
-        marginVertical: 10
-    }
-})
