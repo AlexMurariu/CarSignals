@@ -11,6 +11,15 @@ export default class LoginComponent extends React.Component<UserProps> {
         password: ''
     }
 
+    componentDidMount = () => {
+        const { email, password } = this.props.user;
+        
+        if (email && password) {
+            this.setState({email, password})
+        }
+
+    }
+
     handleLogin = () => {
         const { email, password } = this.state
 
