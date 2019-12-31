@@ -1,21 +1,32 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Button, Card, TextInput } from 'react-native-paper';
-import Firebase from '../firebase.config';
+import { UserProps } from './types';
+import NavigationService from '../../navigation/NavigationService';
+import { styles } from './style';
 
-class Login extends React.Component {
+export default class LoginComponent extends React.Component<UserProps> {
     state = {
         email: '',
         password: ''
     }
 
+    componentDidMount = () => {
+        const { email, password } = this.props.user;
+        
+        if (email && password) {
+            this.setState({email, password})
+        }
+
+    }
+
     handleLogin = () => {
         const { email, password } = this.state
 
-        Firebase.auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(() => this.props.navigation.navigate('Home'))
-            .catch(error => console.log(error))
+        if (email && password) {
+            this.props.login(email, password);
+            NavigationService.navigate('Home');
+        }
     }
 
     render() {
@@ -49,7 +60,7 @@ class Login extends React.Component {
                         </Button>
                         <Button 
                             style={styles.buttons} 
-                            onPress={() => this.props.navigation.navigate('SignUp')}
+                            onPress={() => NavigationService.navigate('SignUp')}
                         >
                             Don't have an account yet? Sign up
                         </Button>
@@ -59,23 +70,3 @@ class Login extends React.Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%'
-    },
-    card: {
-        height: '40%'
-    },
-    inputs: {
-        marginVertical: 5
-    },
-    buttons: {
-        marginVertical: 10
-    }
-})
-
-export default Login

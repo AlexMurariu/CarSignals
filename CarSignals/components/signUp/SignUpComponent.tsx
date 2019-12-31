@@ -1,9 +1,15 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Button, Card, TextInput } from 'react-native-paper';
-import Firebase from '../firebase.config';
+import Firebase from '../../firebase.config';
+import { NavigationStackProp } from 'react-navigation-stack';
 
-class Signup extends React.Component {
+type SignUpProps = {
+    navigation: NavigationStackProp<{}>
+}
+
+
+export default class SignupComponent extends React.Component<SignUpProps> {
     state = {
         email: '',
         password: '',
@@ -85,5 +91,3 @@ const styles = StyleSheet.create({
         marginVertical: 10
     }
 })
-
-export default Signup
