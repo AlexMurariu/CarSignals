@@ -25,7 +25,7 @@ export default class LoginComponent extends React.Component<LoginUserProps> {
 
         if (email && password) {
             this.props.login(email, password);
-            NavigationService.navigate('Home');
+            NavigationService.navigate('Menu');
         }
     }
 
