@@ -1,7 +1,7 @@
 import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import { DefaultScreen } from './components';
+import { MenuComponent } from './components';
 import { Provider } from 'react-redux'
 import { store } from './state/store';
 import { LoginContainer, SignUpContainer } from './containers';
@@ -9,19 +9,19 @@ import NavigationService from './navigation/NavigationService';
 
 const StackNavigator = createStackNavigator(
   {
-    Login: {
-      screen: LoginContainer
-    },
-    SignUp: {
-      screen: SignUpContainer
-    },
+    // Login: {
+    //   screen: LoginContainer
+    // },
+    // SignUp: {
+    //   screen: SignUpContainer
+    // },
     Home: {
-      screen: DefaultScreen
+      screen: MenuComponent
     },
   },
-  {
-    initialRouteName: 'Login'
-  }
+  // {
+  //   initialRouteName: 'Login'
+  // }
 )
 
 const AppContainer = createAppContainer(StackNavigator);

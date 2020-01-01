@@ -1,9 +1,9 @@
 import { LoginComponent } from './login';
-import SignUpComponent from './signUp/SignUpComponent';
-import DefaultScreen from './DefaultScreen';
+import { SignUpComponent } from './signUp';
+import { MenuComponent } from './menu';
 
 export {
     LoginComponent,
     SignUpComponent,
-    DefaultScreen
+    MenuComponent
 }
