@@ -1,7 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { Button, Card, TextInput } from 'react-native-paper';
 import { LoginUserProps } from './types';
+import Toast from 'react-native-root-toast';
 import NavigationService from '../../navigation/NavigationService';
 import { styles } from './LoginComponentStyle';
 
@@ -17,7 +18,17 @@ export default class LoginComponent extends React.Component<LoginUserProps> {
         if (email && password) {
             this.setState({email, password})
         }
+    }
 
+    showToaster = (error: string) => {
+        Toast.show(error, {
+            duration: 3000,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            position: 100,
+            delay: 0,
+        }) 
     }
 
     handleLogin = () => {
@@ -25,13 +36,19 @@ export default class LoginComponent extends React.Component<LoginUserProps> {
 
         if (email && password) {
             this.props.login(email, password);
-            NavigationService.navigate('Menu');
+            NavigationService.navigate('History');
         }
     }
 
     render() {
+        const {
+            user: { error },
+            loadUserInProgress,
+        } = this.props;
         return (
             <View style={styles.container}>
+                {error ? this.showToaster(error) : null}
+                {loadUserInProgress ? <ActivityIndicator size="large" color="#000"/> : 
                 <Card style={styles.card}>
                     <Card.Content>
                         <TextInput
@@ -65,7 +82,8 @@ export default class LoginComponent extends React.Component<LoginUserProps> {
                             Don't have an account yet? Sign up
                         </Button>
                     </Card.Content>
-                </Card>
+                </Card> 
+                }
             </View>
         )
     }

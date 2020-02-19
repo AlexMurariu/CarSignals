@@ -1,23 +1,25 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { connect } from "react-redux";
+import { RootState } from "../state/reducers";
+import { Dispatch, bindActionCreators } from "redux";
+import { CarServiceComponent } from "../components";
+import { CarServiceDispatch, CarServiceState } from "../components/carServices/types";
 
-class CarServicesContainer extends React.Component {
-    render() {
-        return (
-            <View style={styles.container}>
-                <Text>Car services</Text>
-            </View>
-        )
+function mapStateToProps (state: RootState): CarServiceState {
+    const user = state.auth;
+    const loadUserInProgress = state.ui.loadUserInProgress;
+
+    return {
+        user,
+        loadUserInProgress
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-})
+// function mapDispatchToProps (dispatch: Dispatch): CarServiceDispatch {
+//     return {
+//         ...bindActionCreators({
+            
+//         }, dispatch)
+//     }
+// }
 
-export default CarServicesContainer
+export default connect(mapStateToProps)(CarServiceComponent);

@@ -4,6 +4,7 @@ import { actionTypes } from '../types';
 import { switchMap, filter } from 'rxjs/operators';
 import { isOfType } from 'typesafe-actions';
 import AuthService from '../../services/authService';
+import { Alert } from "react-native";
 
 interface Action {
     type: string,
@@ -28,3 +29,12 @@ export const SignUpEpic: Epic<Action, Action> = (action$, state$) =>
             return AuthService.signUpUser(email, password);
         })
     )
+
+export const LogoutEpic: Epic<Action, Action> = (action$, state$) =>
+    action$.pipe(
+        filter(isOfType(actionTypes.LOGOUT)),
+        switchMap((action): Promise<any> => {
+            return AuthService.logoutUser();
+        })
+    )
+

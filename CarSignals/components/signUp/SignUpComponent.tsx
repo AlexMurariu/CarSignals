@@ -1,8 +1,9 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Button, Card, TextInput } from 'react-native-paper';
+import { Button, Card, TextInput, ActivityIndicator } from 'react-native-paper';
 import { styles } from './SignUpComponentStyle';
 import { SignUpUserProps } from './types';
+import Toast from 'react-native-root-toast';
 import NavigationService from '../../navigation/NavigationService';
 
 export default class SignupComponent extends React.Component<SignUpUserProps> {
@@ -12,12 +13,15 @@ export default class SignupComponent extends React.Component<SignUpUserProps> {
         confirmPassowrd: ''
     }
 
-    componentDidMount = () => {
-        const { email, password } = this.props.user;
-        
-        if (email && password) {
-            this.setState({email, password})
-        }
+    showToaster = (error: string) => {
+        Toast.show(error, {
+            duration: 3000,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            position: 100,
+            delay: 0,
+        }) 
     }
 
     handleSignUp = () => {
@@ -25,13 +29,19 @@ export default class SignupComponent extends React.Component<SignUpUserProps> {
 
         if (email && password) {
             this.props.signUp(email, password);
-            NavigationService.navigate('Menu');
+            NavigationService.navigate('History');
         }
     }
 
     render() {
+        const {
+            user: { error },
+            loadUserInProgress,
+        } = this.props;
         return (
             <View style={styles.container}>
+                {error ? this.showToaster(error) : null}
+                {loadUserInProgress ? <ActivityIndicator size="large" color="#000"/> :
                 <Card style={styles.card}>
                     <Card.Content>
                         <TextInput
@@ -74,6 +84,7 @@ export default class SignupComponent extends React.Component<SignUpUserProps> {
                         </Button>
                     </Card.Content>
                 </Card>
+                }
             </View>
         )
     }

@@ -1,5 +1,7 @@
+import { logoutSuccess, logoutFailed } from './../state/actions/authActions';
 import { loginSuccess, loginFailed, signUpSuccess, signUpFailed  } from './../state/actions';
 import Firebase from '../firebase.config';
+import NavigationService from '../navigation/NavigationService';
 
 class AuthService {
     static myInstance: AuthService;
@@ -18,7 +20,7 @@ class AuthService {
                         return loginSuccess(email, password);
                     })
                     .catch((error) => {
-                        return loginFailed();
+                        return loginFailed(error.message);
                     })
     }
 
@@ -26,12 +28,24 @@ class AuthService {
         return Firebase.auth()
                     .createUserWithEmailAndPassword(email, password)
                     .then(() => {
+                        console.log(email, password)
                         return signUpSuccess(email, password);
                     })
                     .catch((error) => {
-                        return signUpFailed();
+                        return signUpFailed(error.message);
                     })
     }
+
+    logoutUser(): Promise<any> {
+        return Firebase.auth().
+                    signOut().then(() => {
+                        NavigationService.navigate('Login');
+                        return logoutSuccess();
+                    })
+                    .catch((error) => {
+                        return logoutFailed();
+                    })
+    } 
 }
 
 export default AuthService.getInstance();

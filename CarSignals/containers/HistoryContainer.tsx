@@ -1,23 +1,25 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { connect } from "react-redux";
+import { RootState } from "../state/reducers";
+import { Dispatch, bindActionCreators } from "redux";
+import { HistoryComponent } from "../components";
+import { HistoryDispatch, HistoryState } from "../components/history/types";
 
-class HistoryContainer extends React.Component {
-    render() {
-        return (
-            <View style={styles.container}>
-                <Text>History</Text>
-            </View>
-        )
+function mapStateToProps (state: RootState): HistoryState {
+    const user = state.auth;
+    const loadUserInProgress = state.ui.loadUserInProgress;
+
+    return {
+        user,
+        loadUserInProgress
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-})
+// function mapDispatchToProps (dispatch: Dispatch): HistoryDispatch {
+//     return {
+//         ...bindActionCreators({
+            
+//         }, dispatch)
+//     }
+// }
 
-export default HistoryContainer
+export default connect(mapStateToProps)(HistoryComponent);

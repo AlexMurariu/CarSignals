@@ -1,23 +1,25 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { connect } from "react-redux";
+import { RootState } from "../state/reducers";
+import { Dispatch, bindActionCreators } from "redux";
+import { GuideComponent } from "../components";
+import { GuideDispatch, GuideState } from "../components/guide/types";
 
-class GuideContainer extends React.Component {
-    render() {
-        return (
-            <View style={styles.container}>
-                <Text>Guide</Text>
-            </View>
-        )
+function mapStateToProps (state: RootState): GuideState {
+    const user = state.auth;
+    const loadUserInProgress = state.ui.loadUserInProgress;
+
+    return {
+        user,
+        loadUserInProgress
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-})
+// function mapDispatchToProps (dispatch: Dispatch): GuideDispatch {
+//     return {
+//         ...bindActionCreators({
+            
+//         }, dispatch)
+//     }
+// }
 
-export default GuideContainer
+export default connect(mapStateToProps)(GuideComponent);

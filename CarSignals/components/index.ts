@@ -1,9 +1,15 @@
+import { CameraComponent } from './camera';
+import { HistoryComponent } from './history';
 import { LoginComponent } from './login';
 import { SignUpComponent } from './signUp';
-import { MenuComponent } from './menu';
+import { CarServiceComponent } from './carServices';
+import { GuideComponent } from './guide';
 
 export {
     LoginComponent,
     SignUpComponent,
-    MenuComponent
+    HistoryComponent,
+    CameraComponent,
+    CarServiceComponent,
+    GuideComponent
 }

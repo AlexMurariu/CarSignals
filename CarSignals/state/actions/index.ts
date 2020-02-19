@@ -1,4 +1,25 @@
-import { login, loginSuccess, loginFailed, signUp, UserActions, signUpSuccess, signUpFailed } from './authActions';
+import { 
+    getDetectedSignals, 
+    getDetectedSignalsFailed, 
+    getDetectedSignalsSuccess, 
+    deleteDetectedSignal, 
+    deleteDetectedSignalSuccess, 
+    deleteDetectedSignalFailed,
+    HistoryActions 
+} from './historyActions';
+
+import { 
+    login, 
+    loginSuccess, 
+    loginFailed, 
+    signUp, 
+    UserActions, 
+    signUpSuccess, 
+    signUpFailed, 
+    logout, 
+    logoutSuccess, 
+    logoutFailed 
+} from './authActions';
 
 export {
     login,
@@ -6,9 +27,19 @@ export {
     loginFailed,
     signUp,
     signUpSuccess,
-    signUpFailed
+    signUpFailed,
+    logout,
+    logoutSuccess,
+    logoutFailed,
+    getDetectedSignals, 
+    getDetectedSignalsFailed, 
+    getDetectedSignalsSuccess, 
+    deleteDetectedSignal, 
+    deleteDetectedSignalSuccess, 
+    deleteDetectedSignalFailed,
 }
 
 export {
-    UserActions
+    UserActions,
+    HistoryActions
 }

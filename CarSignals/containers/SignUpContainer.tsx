@@ -7,9 +7,11 @@ import { SignUpComponent } from "../components";
 
 function mapStateToProps (state: RootState): SignUpUserDataState {
     const user = state.auth;
-    
+    const loadUserInProgress = state.ui.loadUserInProgress;
+
     return {
-        user
+        user,
+        loadUserInProgress
     }
 }
 

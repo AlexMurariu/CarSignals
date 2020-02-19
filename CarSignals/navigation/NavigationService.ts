@@ -1,3 +1,4 @@
+import { DrawerActions } from 'react-navigation-drawer';
 import { NavigationActions } from 'react-navigation';
 
 let _navigator;
@@ -15,7 +16,17 @@ function navigate(routeName: string, params?: any) {
     );
 }
 
+function openDrawer() {
+    _navigator.dispatch(DrawerActions.openDrawer());
+}
+
+function closeDrawer() {
+    _navigator.dispatch(DrawerActions.closeDrawer());
+}
+
 export default {
     navigate,
-    setTopLevelNavigator
+    setTopLevelNavigator,
+    openDrawer,
+    closeDrawer
 }
