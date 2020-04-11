@@ -24,6 +24,15 @@ export default class HeaderComponent extends Component<HeaderProps> {
         this.setState({ displayDialog: false });
     }
 
+    getUsername(email: string) {
+        if (!email) {
+            return "";
+        }
+
+        const usernameParts = email.split('@');
+        return usernameParts[0];
+    }
+
     render() {
         if (this.props.user.loadUserDone && !this.props.user.email) {
             NavigationService.navigate("Login");
@@ -37,7 +46,7 @@ export default class HeaderComponent extends Component<HeaderProps> {
                 <TouchableOpacity style={styles.account} onPress={() => this.logout()}>
                     <IconButton icon='account-circle'/>
                     <Text>
-                        {this.props.user.email}
+                        {this.getUsername(this.props.user.email)}
                     </Text>
                 </TouchableOpacity>
                 </View> : null

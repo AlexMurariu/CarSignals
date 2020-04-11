@@ -4,9 +4,10 @@ import { styles } from './CarServiceComponentStyle';
 import { CarServiceProps } from './types';
 import { ActivityIndicator } from 'react-native-paper';
 import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
+import { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import Toast from 'react-native-root-toast';
 
 class CarServiceComponent extends React.Component<CarServiceProps> {
     state = {
@@ -18,6 +19,19 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
 
     componentDidMount() {
         this.getLocationAsync();
+    }
+
+    showToaster() {
+        if (this.state.locationResult !== null || this.state.markers.length) {
+            Toast.show("Press on the markers for additional information", {
+                duration: 5000,
+                shadow: true,
+                animation: true,
+                hideOnPress: true,
+                position: 100,
+                delay: 0,
+            }) 
+        }
     }
 
     getLocationAsync = async () => {
@@ -53,6 +67,8 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
                 longitudeDelta: 0.0421
             }
         });
+
+        this.showToaster();
     };
 
     async getServices(parameters) {
@@ -68,6 +84,29 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
         }
     }
 
+    validateAddress(vicinity: string) {
+        const regExp = new RegExp(/[a-zA-Z]/);
+
+        if (vicinity && vicinity.match(regExp)) {
+            return vicinity;
+        }
+
+        return "";
+    }
+
+    renderMarkerCallout(title: string, vicinity?: string, status?: any, rating?: string) {
+        return (
+            <Callout tooltip>
+                <View style={styles.markerCalloutText}>
+                    {title ? <Text style={styles.markerTitle}>{title}</Text> : null}
+                    {this.validateAddress(vicinity) ? <Text>Address: {vicinity}</Text> : null}
+                    {status ? <Text>Status: {status.open_now ? "Open" : "Closed"}</Text> : null}
+                    {rating ? <Text>Rating: {rating}★</Text> : null}
+                </View>
+            </Callout>
+        )
+    }
+
     renderMarkers() {
         let markers = [];
         this.state.markers.forEach((result: any) => {
@@ -79,8 +118,9 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
                         longitude: result.geometry.location.lng
                     }}
                     title={result.name}
-                    description={'' + result.rating}
-                />
+                >
+                    {this.renderMarkerCallout(result.name, result.vicinity, result.opening_hours, result.rating)}
+                </Marker>
             );
             markers.push(marker);
         });
@@ -88,7 +128,6 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
     }
 
     render() {
-        this.renderMarkers();
         return (
             <View style={styles.container}>
                 {this.state.locationResult === null ||
@@ -111,10 +150,10 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
                                 latitude: this.state.mapRegion.latitude,
                                 longitude: this.state.mapRegion.longitude
                             }}
-                            title={'My location'}
-                            description={''}
                             pinColor="#ff9900"
-                        />
+                        >
+                            {this.renderMarkerCallout("My location")}
+                        </Marker>
                         {this.renderMarkers().length
                             ? this.renderMarkers()
                             : null}

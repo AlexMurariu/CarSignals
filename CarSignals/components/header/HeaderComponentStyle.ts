@@ -14,11 +14,6 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         marginRight: 10
     },
-    dialogButtonContainer: {
-        display: "flex",
-        flexDirection: "row",
-        marginLeft: 20
-    },
     dialogText: {
         margin: 10,
     }
