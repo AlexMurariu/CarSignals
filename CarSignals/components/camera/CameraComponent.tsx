@@ -20,6 +20,10 @@ import * as ImagePicker from 'expo-image-picker'
 import Constants from 'expo-constants'
 // import * as Permissions from 'expo-permissions'
 import * as FileSystem from 'expo-file-system';
+import * as cvstfjs from '@microsoft/customvision-tfjs';
+
+// Without it the load model function will fail because of typescript (fecth not used => import not being made)
+console.log(fetch);
 
 class CameraComponent extends React.Component<CameraProps> {
     state = {
@@ -28,12 +32,13 @@ class CameraComponent extends React.Component<CameraProps> {
         predictions: null,
         image: null
       }
-    
+      
       async componentDidMount() {
         await tf.ready()
         this.setState({
           isTfReady: true
         })
+    
         this.model = await mobilenet.load()
         this.setState({ isModelReady: true })
         this.getPermissionAsync()
@@ -66,20 +71,8 @@ class CameraComponent extends React.Component<CameraProps> {
       }
     
       classifyImage = async () => {
-        // try {
-        //     const imageAssetPath = Image.resolveAssetSource(this.state.image)
-        //     const response = await fetch(imageAssetPath.uri, {}, { isBinary: true })
-        //     const rawImageData = await response.arrayBuffer()
-        //     const imageTensor = this.imageToTensor(rawImageData)
-        //     const predictions = await this.model.classify(imageTensor)
-        //     this.setState({ predictions })
-        //     console.log(predictions)
-        //   } catch (error) {
-        //     console.log(error)
-        //   }
         try {
             const imageAssetPath = Image.resolveAssetSource(this.state.image)
-            // const response = await fetch(imageAssetPath.uri, {}, { isBinary: true })
             const response = await FileSystem.readAsStringAsync(imageAssetPath.uri, {
                 encoding: FileSystem.EncodingType.Base64,
             });
@@ -89,6 +82,7 @@ class CameraComponent extends React.Component<CameraProps> {
             const predictions = await this.model.classify(imageTensor)
             this.setState({ predictions })
             console.log(predictions)
+            // const response1 = await fetch('', {}, { isBinary: true })
           } catch (error) {
             console.log(error)
           }
@@ -159,7 +153,6 @@ class CameraComponent extends React.Component<CameraProps> {
             </View>
             <View style={styles.footer}>
               <Text style={styles.poweredBy}>Powered by:</Text>
-              {/* <Image source={require('./assets/tfjs.jpg')} style={styles.tfLogo} /> */}
             </View>
           </View>
         );
