@@ -1,5 +1,4 @@
 import { actionTypes } from "../types";
-import { Alert } from "react-native";
 
 export type LoginStartedAction = {
     type: string;
@@ -46,15 +45,15 @@ export type LogoutFailedAction = {
     payload: any;
 }
 
-export type UserActions = LoginStartedAction | 
-                            LoginSuccessAction | 
-                            LoginFailedAction | 
-                            SignUpStartedAction |
-                            SignUpSuccessAction |
-                            SignUpFailedAction |
-                            LogoutAction |
-                            LogoutSuccessAction |
-                            LogoutFailedAction
+export type UserActions = LoginStartedAction 
+                            | LoginSuccessAction 
+                            | LoginFailedAction 
+                            | SignUpStartedAction 
+                            | SignUpSuccessAction 
+                            | SignUpFailedAction 
+                            | LogoutAction 
+                            | LogoutSuccessAction 
+                            | LogoutFailedAction
 
 export const login = (email: string, password: string): LoginStartedAction => {
     return {

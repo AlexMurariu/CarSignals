@@ -1,4 +1,11 @@
 import { 
+    getCameraPermission,
+    getCameraPermissionSuccess,
+    getCameraPermissionFailed,
+    PermissionActions
+} from './permissionActions';
+
+import { 
     getDetectedSignals, 
     getDetectedSignalsFailed, 
     getDetectedSignalsSuccess, 
@@ -37,9 +44,13 @@ export {
     deleteDetectedSignal, 
     deleteDetectedSignalSuccess, 
     deleteDetectedSignalFailed,
+    getCameraPermission,
+    getCameraPermissionSuccess,
+    getCameraPermissionFailed
 }
 
 export {
     UserActions,
-    HistoryActions
+    HistoryActions,
+    PermissionActions
 }

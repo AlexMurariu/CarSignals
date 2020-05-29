@@ -4,7 +4,6 @@ import { actionTypes } from '../types';
 import { switchMap, filter } from 'rxjs/operators';
 import { isOfType } from 'typesafe-actions';
 import AuthService from '../../services/authService';
-import { Alert } from "react-native";
 
 interface Action {
     type: string,

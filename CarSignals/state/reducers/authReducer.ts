@@ -1,7 +1,6 @@
 import { UserActions } from './../actions';
 import { Record } from 'immutable';
 import { actionTypes } from '../types';
-import { Alert } from 'react-native';
 
 interface IUser {
     email: string,
@@ -27,28 +26,15 @@ const initialState: UserState = new UserState({ email: '', password: '', loadUse
 
 const authReducer = (state: UserState = initialState, action: UserActions) => {
     switch (action.type) {
+        case actionTypes.SIGNUP_SUCCESS:
         case actionTypes.LOGIN_SUCCESS: {
             const { email, password } = action.payload;
             const error = '';
             return new UserState({ email, password, loadUserDone: true ,error});
         }
 
+        case actionTypes.SIGNUP_FAILED:
         case actionTypes.LOGIN_FAILED: {
-            const error = action.payload;
-            return {
-                ...state,
-                loadUserDone: true,
-                error
-            };
-        }
-        
-        case actionTypes.SIGNUP_SUCCESS: {
-            const { email, password } = action.payload;
-            const error = '';
-            return new UserState({ email, password, loadUserDone: true, error });
-        }
-
-        case actionTypes.SIGNUP_FAILED: {
             const error = action.payload;
             return {
                 ...state,

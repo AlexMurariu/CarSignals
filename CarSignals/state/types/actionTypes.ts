@@ -13,5 +13,8 @@ export default {
     GET_DETECTED_SIGNALS_FAILED: 'get_detected_signals_failed',
     DELETE_DETECTED_SIGNAL: 'delete_detected_signal',
     DELETE_DETECTED_SIGNAL_SUCCESS: 'delete_detected_signal_success',
-    DELETE_DETECTED_SIGNAL_FAILED: 'delete_detected_signal_failed'
+    DELETE_DETECTED_SIGNAL_FAILED: 'delete_detected_signal_failed',
+    GET_CAMERA_PERMISSION: 'get_camera_permission',
+    GET_CAMERA_PERMISSION_SUCCESS: 'get_camera_permission_success',
+    GET_CAMERA_PERMISSION_FAILED: 'get_camera_permission_failed'
 };

@@ -28,7 +28,6 @@ class AuthService {
         return Firebase.auth()
                     .createUserWithEmailAndPassword(email, password)
                     .then(() => {
-                        console.log(email, password)
                         return signUpSuccess(email, password);
                     })
                     .catch((error) => {
