@@ -1,10 +1,9 @@
 import { connect } from "react-redux";
 import { RootState } from "../state/reducers";
-import { LoginUserDataState, LoginUserDispatch } from "../components/login/types";
 import { Dispatch, bindActionCreators } from "redux";
 import HeaderComponent from "../components/header/HeaderComponent";
 import { HeaderDataSet, HeaderDispatch } from "../components/header/types";
-import { logout } from "../state/actions/authActions";
+import { logout, clearPredictions } from "../state/actions";
 
 function mapStateToProps (state: RootState): HeaderDataSet {
     const user = state.auth;
@@ -17,7 +16,8 @@ function mapStateToProps (state: RootState): HeaderDataSet {
 function mapDispatchToProps (dispatch: Dispatch): HeaderDispatch {
     return {
         ...bindActionCreators({
-            logout
+            logout,
+            clearPredictions
         }, dispatch)
     }
 }

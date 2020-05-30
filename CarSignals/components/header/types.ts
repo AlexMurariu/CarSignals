@@ -5,7 +5,8 @@ export interface HeaderDataSet {
 }
 
 export interface HeaderDispatch {
-    logout: Function
+    logout: Function,
+    clearPredictions: Function
 }
 
 export type HeaderProps = HeaderDataSet & HeaderDispatch;

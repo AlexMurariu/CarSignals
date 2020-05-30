@@ -16,5 +16,9 @@ export default {
     DELETE_DETECTED_SIGNAL_FAILED: 'delete_detected_signal_failed',
     GET_CAMERA_PERMISSION: 'get_camera_permission',
     GET_CAMERA_PERMISSION_SUCCESS: 'get_camera_permission_success',
-    GET_CAMERA_PERMISSION_FAILED: 'get_camera_permission_failed'
+    GET_CAMERA_PERMISSION_FAILED: 'get_camera_permission_failed',
+    GET_PREDICTIONS: 'get_predictions',
+    GET_PREDICTIONS_SUCCESS: 'get_predictions_success',
+    GET_PREDICTIONS_FAILED: 'get_predictions_failed',
+    CLEAR_PREDICTIONS: 'clear_predictions'
 };

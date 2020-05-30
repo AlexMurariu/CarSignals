@@ -1,4 +1,12 @@
 import { 
+    getPredictions,
+    getPredictionsSuccess,
+    getPredictionsFailed,
+    clearPredictions,
+    PredictionActions
+} from './predictionActions';
+
+import { 
     getCameraPermission,
     getCameraPermissionSuccess,
     getCameraPermissionFailed,
@@ -46,11 +54,16 @@ export {
     deleteDetectedSignalFailed,
     getCameraPermission,
     getCameraPermissionSuccess,
-    getCameraPermissionFailed
+    getCameraPermissionFailed,
+    getPredictions,
+    getPredictionsSuccess,
+    getPredictionsFailed,
+    clearPredictions
 }
 
 export {
     UserActions,
     HistoryActions,
-    PermissionActions
+    PermissionActions,
+    PredictionActions
 }

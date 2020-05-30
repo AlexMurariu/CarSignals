@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         paddingTop: 40,
-        backgroundColor: '#F0F0F0'
+        backgroundColor: '#236ACD'
     },
     account: {
         display: "flex",

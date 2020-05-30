@@ -6,27 +6,26 @@ import { LoginContainer, SignUpContainer, CameraContainer, CarServicesContainer,
 import NavigationService from './navigation/NavigationService';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 
-
 const DrawerNavigator = createDrawerNavigator({
     History: {screen: HistoryContainer},
     Camera: {screen: CameraContainer},
     CarServices: {screen: CarServicesContainer},
-    Guide: {screen: GuideContainer}
-  })
+    Guide: {screen: GuideContainer},
+})
 
 const SwitchNavigator = createSwitchNavigator({
-  Login: {
-    screen: LoginContainer
+    Login: {
+      screen: LoginContainer,
+    },
+    SignUp: {
+      screen: SignUpContainer
+    },
+    Main: {
+      screen: DrawerNavigator,
+    },
   },
-  SignUp: {
-    screen: SignUpContainer
-  },
-  Main: {
-    screen: DrawerNavigator
-  },
-},
   {
-    initialRouteName: 'Login'
+    initialRouteName: 'Login',
   }
 )  
 

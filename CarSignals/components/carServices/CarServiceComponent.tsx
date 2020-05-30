@@ -79,9 +79,7 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
             this.setState({
                 markers: json.results
             });
-        } catch (err) {
-            console.log(err);
-        }
+        } catch (err) {}
     }
 
     validateAddress(vicinity: string) {

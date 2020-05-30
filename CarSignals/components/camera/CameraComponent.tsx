@@ -1,23 +1,23 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StatusBar } from 'react-native';
-import { Image as RNImage } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { styles } from './CameraComponentStyle';
 import { CameraProps } from './types';
 import * as tf from '@tensorflow/tfjs'
-import { bundleResourceIO } from '@tensorflow/tfjs-react-native'
-import * as jpeg from 'jpeg-js';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import * as cvstfjs from '@microsoft/customvision-tfjs';
+import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
+import { IPrediction } from '../../state/reducers/predictionReducer';
+import { TakePictureComponent } from '../takePictureComponent';
 
 class CameraComponent extends React.Component<CameraProps> {
     state = {
       isTfReady: false,
-      isModelReady: null,
-      model: null,
+      isModelReady: false,
       image: null,
-      predictions: null
+      predictions: null,
+      cameraMode: false
     }
 
     async componentDidMount() {
@@ -27,71 +27,33 @@ class CameraComponent extends React.Component<CameraProps> {
       const modelWeights = require('../../assets/model/weights.bin');
       let modelCv = new cvstfjs.ObjectDetectionModel();
       await modelCv.loadModelAsync(bundleResourceIO(modelJSON, modelWeights));
-      // const model = await tf.loadGraphModel(bundleResourceIO(modelJSON, modelWeights));
-
-      this.setState({ 
-        isModelReady: true,
-        model: modelCv
-      });
-      
+      this.setState({ isModelReady: true });
       this.props.getCameraPermission();
     }
-    
-    imageToTensor(rawImageData: any) {
-      const TO_UINT8ARRAY: any = true
-      const { width, height, data } = jpeg.decode(rawImageData, TO_UINT8ARRAY)
-      const buffer = new Uint8Array(width * height * 3)
-      let offset = 0;
 
-      for (let i = 0; i < buffer.length; i += 3) {
-        buffer[i] = data[offset]
-        buffer[i + 1] = data[offset + 1]
-        buffer[i + 2] = data[offset + 2]
-  
-        offset += 4
-      }
-    
-      return tf.tensor3d(buffer, [width, height, 3])
-    }
-
-    classifyImage = async () => {
+    async detectObjects() {
       try {
-          const imageAssetPath = RNImage.resolveAssetSource(this.state.image)
+          const imageAssetPath = Image.resolveAssetSource(this.state.image)
           const response = await FileSystem.readAsStringAsync(imageAssetPath.uri, {
               encoding: FileSystem.EncodingType.Base64,
             });
-          const imgBuffer = tf.util.encodeString(response, 'base64').buffer;
-          const raw = new Uint8Array(imgBuffer);
-          // const imageTensor = this.imageToTensor(raw);
-          // const tensor = imageTensor.resizeNearestNeighbor([416, 416]).expandDims().toFloat();
-          const url = 'https://southcentralus.api.cognitive.microsoft.com/customvision/v3.0/Prediction/8392ecee-fb13-405f-9e00-23d0fc32f0a1/detect/iterations/Iteration7/image';
-          const respoonseCV = fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/octet-stream',
-              'Prediction-Key': '470ca9a7e4324ad891e3869dcff21ca2'
-            },
-            body: imgBuffer
-          }).then((response:any) => response.json()).then((data: any) => {
-            console.log(data.predictions)
-            }).catch((err) => console.log(err));
-          // const result = await this.state.model.executeAsync(tensor);
-          // console.log(result);
-        } catch (error) {}
+          const imgBuffer = tf.util.encodeString(response, 'base64');
+          this.props.getPredictions(imgBuffer);
+      } catch (error) {}
     }
 
-    selectImage = async () => {
+    async selectImage() {
       try {
-        let response: any = await ImagePicker.launchImageLibraryAsync({
+        let image: any = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
           aspect: [4, 3]
         })
   
-        if (!response.cancelled) {
-          const source = { uri: response.uri }
+        if (!image.cancelled) {
+          const source = { uri: image.uri }
           this.setState({ image: source })
-          this.classifyImage()
+          this.detectObjects()
         }
       } catch (error) {}
     }
@@ -104,22 +66,84 @@ class CameraComponent extends React.Component<CameraProps> {
       )
     }
 
+    takePhoto(image: any) {
+      this.setState({ 
+        cameraMode: false,
+        image: { uri: image.uri }
+      });
+      this.detectObjects();
+    }
+
     renderCameraPage() {
+      const { loadPredictionsInProgress, predictions } = this.props;
+      const { image } = this.state;
+      
+      return (
+        <View style={styles.content}>
+            <TouchableOpacity style={styles.imageWrapper} onPress={() => this.selectImage()}>
+              { image ? <Image source={image} style={styles.imageContainer} /> : <Text>Choose from gallery.</Text>}
+            </TouchableOpacity>
+            <View style={styles.buttonsContainer}>
+              <TouchableOpacity style={styles.takePhotoButton} onPress={() => this.setState({ cameraMode: true })}>
+                <Text style={styles.takePhotoButtonText}>Take photo</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.takePhotoButton} onPress={() => this.props.clearPredictions()}>
+                <Text style={styles.takePhotoButtonText}>Clear predictions</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.predictionsContainer}>
+              { !loadPredictionsInProgress ? this.renderPrediction(predictions) : <ActivityIndicator size="large" color="#000"/> }
+            </View>
+        </View>
+      )
+    }
+
+    renderPrediction = (predictions: IPrediction[]) => {
       return (
         <View>
-          <Text>Done</Text>
+          { 
+            predictions &&
+              (predictions.length ? predictions.map((prediction: IPrediction) => {
+                return (
+                  <Text key={prediction.tagName}>{prediction.tagName}</Text>
+                )
+              }) : 
+              <Text>No dashboard light was found. Try to take a photo from a closer distance or load one from gallery.</Text>) 
+          }
+          <Text>
+            {
+              predictions && 
+                (predictions.length ? 
+                  <Text style={styles.notGoodEnoughMessage}>
+                    If you are not pleased with the prediction result, please try again from a closer distance or try to load a picture from gallery.
+                  </Text> : null)
+            }
+          </Text>
         </View>
       )
     }
 
     render() {
-        const { isTfReady, isModelReady, predictions, image } = this.state
         const { camera } = this.props;
-        return (
-            <View>
-              { camera === 'denied' ? this.renderNoPermissionWarning() : this.renderCameraPage() }
+        const { isTfReady, isModelReady, cameraMode } = this.state;
+        if (cameraMode) {
+          return (
+            <TakePictureComponent camera={camera} takePhoto={(image: any) => this.takePhoto(image)}/>
+          );
+        } else {
+          return (
+            <View style={styles.container}>
+              { 
+                isModelReady && isTfReady ? 
+                (camera === "denied" ? this.renderNoPermissionWarning() : this.renderCameraPage()) : 
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator style={styles.activityLoader} color="#000" size="large"/>
+                  <Text>Please wait for the model to load.</Text> 
+                </View>
+              }
             </View>
-        );
+          );
+        }
     }
 }
 

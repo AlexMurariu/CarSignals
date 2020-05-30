@@ -1,5 +1,4 @@
 import { getCameraPermissionSuccess, getCameraPermissionFailed } from './../state/actions/permissionActions';
-import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
 class PermissionService {
@@ -15,7 +14,7 @@ class PermissionService {
     getCameraPermissions(): Promise<any> {
         return Permissions.askAsync(Permissions.CAMERA_ROLL)
             .then((permission: any) => {
-                return getCameraPermissionSuccess(permission.status)
+                return getCameraPermissionSuccess(permission)
             })
             .catch((error) => {
                 return getCameraPermissionFailed(error.message);
