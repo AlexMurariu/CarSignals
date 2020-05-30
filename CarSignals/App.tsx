@@ -10,22 +10,22 @@ const DrawerNavigator = createDrawerNavigator({
     History: {screen: HistoryContainer},
     Camera: {screen: CameraContainer},
     CarServices: {screen: CarServicesContainer},
-    Guide: {screen: GuideContainer},
+    Guide: {screen: GuideContainer}
 })
 
 const SwitchNavigator = createSwitchNavigator({
     Login: {
-      screen: LoginContainer,
+      screen: LoginContainer
     },
     SignUp: {
       screen: SignUpContainer
     },
     Main: {
-      screen: DrawerNavigator,
+      screen: DrawerNavigator
     },
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Login'
   }
 )  
 
