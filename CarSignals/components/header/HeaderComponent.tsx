@@ -4,7 +4,9 @@ import { styles } from './HeaderComponentStyle';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import NavigationService from '../../navigation/NavigationService';
 import { IconButton } from 'react-native-paper';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';  
 import { HeaderProps } from './types';
+import { secondaryColor } from '../../constants';
 
 export default class HeaderComponent extends Component<HeaderProps> {
     state = {
@@ -40,12 +42,12 @@ export default class HeaderComponent extends Component<HeaderProps> {
         return (
             this.props.user.loadUserDone && this.props.user.email ?
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => NavigationService.openDrawer()}>
-                    <IconButton icon='view-headline'/>
+                <TouchableOpacity style={styles.menuButton} onPress={() => NavigationService.openDrawer()}>
+                    <FontAwesome name="bars" size={25} color={secondaryColor} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.account} onPress={() => this.logout()}>
-                    <IconButton icon='account-circle'/>
-                    <Text>
+                    <MaterialIcons name='account-circle' color={secondaryColor} size={25}/>
+                    <Text style={styles.userText}>
                         {this.getUsername(this.props.user.email)}
                     </Text>
                 </TouchableOpacity>

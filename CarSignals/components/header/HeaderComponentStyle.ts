@@ -1,3 +1,4 @@
+import { mainColor, secondaryColor } from './../../constants/colorConstants';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -6,13 +7,21 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         paddingTop: 40,
-        backgroundColor: '#236ACD'
+        paddingBottom: 10,
+        backgroundColor: mainColor
     },
     account: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        marginRight: 10
+        marginRight: 25
+    },
+    menuButton: {
+        marginLeft: 25
+    },
+    userText: {
+        color: secondaryColor,
+        marginLeft: 5
     },
     dialogText: {
         margin: 10,

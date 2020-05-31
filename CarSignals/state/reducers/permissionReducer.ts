@@ -3,13 +3,15 @@ import { actionTypes } from '../types';
 import { PermissionActions } from '../actions';
 
 interface IPermissions {
-    camera: string,
-    error: string
+    camera: string;
+    cameraRoll: string;
+    error: string;
 }
 
 const PermissionStateRecord = Record({
     camera: '',
-    error: '',
+    cameraRoll: '',
+    error: ''
 });
 
 class PermissionState extends PermissionStateRecord implements IPermissions {
@@ -18,7 +20,7 @@ class PermissionState extends PermissionStateRecord implements IPermissions {
     }
 }
 
-const initialState: PermissionState = new PermissionState({ camera: '', error: ''});
+const initialState: PermissionState = new PermissionState({ camera: '',  cameraRoll: '', error: ''});
 
 const permissionReducer = (state: PermissionState = initialState, action: PermissionActions) => {
     switch(action.type) {
@@ -35,6 +37,20 @@ const permissionReducer = (state: PermissionState = initialState, action: Permis
                 error: action.payload
             }
         
+
+        case actionTypes.GET_CAMERA_ROLL_PERMISSION_SUCCESS:
+            return {
+                ...state,
+                cameraRoll: action.payload
+            }
+
+        case actionTypes.GET_CAMERA_ROLL_PERMISSION_FAILED:
+            return {
+                ...state,
+                cameraRoll: '',
+                error: action.payload
+            }
+            
         default: {
             return state;
         }

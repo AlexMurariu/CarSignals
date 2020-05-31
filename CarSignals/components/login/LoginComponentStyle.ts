@@ -8,7 +8,9 @@ export const styles = StyleSheet.create({
         height: '100%'
     },
     card: {
-        height: '40%'
+        height: 300,
+        position: 'absolute',
+        top: "35%"
     },
     inputs: {
         marginVertical: 5

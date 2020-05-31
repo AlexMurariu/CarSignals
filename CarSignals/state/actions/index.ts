@@ -7,6 +7,9 @@ import {
 } from './predictionActions';
 
 import { 
+    getCameraRollPermission,
+    getCameraRollPermissionSuccess,
+    getCameraRollPermissionFailed,
     getCameraPermission,
     getCameraPermissionSuccess,
     getCameraPermissionFailed,
@@ -52,6 +55,9 @@ export {
     deleteDetectedSignal, 
     deleteDetectedSignalSuccess, 
     deleteDetectedSignalFailed,
+    getCameraRollPermission,
+    getCameraRollPermissionSuccess,
+    getCameraRollPermissionFailed,
     getCameraPermission,
     getCameraPermissionSuccess,
     getCameraPermissionFailed,

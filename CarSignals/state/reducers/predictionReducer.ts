@@ -1,6 +1,7 @@
 import { PredictionActions } from './../actions/predictionActions';
 import { Record } from 'immutable';
 import { actionTypes } from '../types';
+import moment from 'moment';
 
 interface IPrediction {
     boundingBox: {
@@ -10,6 +11,7 @@ interface IPrediction {
         width: number;
     };
     probability: number;
+    predictionDate: string;
     tagId: string;
     tagName: string;
 }
@@ -22,6 +24,7 @@ const PredictionStateRecord = Record({
         width: null
     },
     probability: null,
+    predictionDate: '',
     tagId: '',
     tagName: ''
 })
@@ -48,18 +51,24 @@ class PredictionListState extends PredictionListStateRecord implements IPredicti
     }
 }
 
-const initialState: PredictionListState = new PredictionListState({ predictions: null, error: '' });
+const initialState: PredictionListState = new PredictionListState({ predictions: null,  error: '' });
 
 const predictionReducer = (state: PredictionListState = initialState, action: PredictionActions) => {
     switch(action.type) {
         case actionTypes.GET_PREDICTIONS_SUCCESS: {
             const predictionList: Array<any> = action.payload
             const predictions = predictionList && predictionList.map((prediction: IPrediction) => {
-                const pred = new PredictionState(prediction);
+                const predictionDate = moment().format('DD-MM-YYYY');
+
+                const pred = new PredictionState({
+                    ...prediction,
+                    predictionDate
+                });
                 return pred;
             });
+
             const newState = new PredictionListState({
-                predictions, 
+                predictions,
                 error: ''
             });
             return newState;

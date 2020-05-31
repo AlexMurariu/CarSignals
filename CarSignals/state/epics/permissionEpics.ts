@@ -11,6 +11,14 @@ interface Action {
     params?: {}
 }
 
+export const GetCameraRollPermissionEpic: Epic<Action, Action> = (action$, state$) =>
+    action$.pipe(
+        filter(isOfType(actionTypes.GET_CAMERA_ROLL_PERMISSION)),
+        switchMap((action): Promise<any> => {
+            return PermissionService.getCameraRollPermissions();
+        })
+    )
+
 export const GetCameraPermissionEpic: Epic<Action, Action> = (action$, state$) =>
     action$.pipe(
         filter(isOfType(actionTypes.GET_CAMERA_PERMISSION)),

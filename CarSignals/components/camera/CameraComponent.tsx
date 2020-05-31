@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { Text, View, TouchableOpacity, Image, Modal, Alert } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { styles } from './CameraComponentStyle';
 import { CameraProps } from './types';
@@ -10,6 +10,10 @@ import * as cvstfjs from '@microsoft/customvision-tfjs';
 import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
 import { IPrediction } from '../../state/reducers/predictionReducer';
 import { TakePictureComponent } from '../takePictureComponent';
+import { PredictionCardComponent } from '../predictionCard';
+import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons'; 
+import { mainColor, secondaryColor } from '../../constants';
 
 class CameraComponent extends React.Component<CameraProps> {
     state = {
@@ -23,12 +27,15 @@ class CameraComponent extends React.Component<CameraProps> {
     async componentDidMount() {
       await tf.ready();
       this.setState({ isTfReady: true });
+
       const modelJSON = require('../../assets/model/model.json');
       const modelWeights = require('../../assets/model/weights.bin');
       let modelCv = new cvstfjs.ObjectDetectionModel();
+      
       await modelCv.loadModelAsync(bundleResourceIO(modelJSON, modelWeights));
+      
       this.setState({ isModelReady: true });
-      this.props.getCameraPermission();
+      this.props.getCameraRollPermission();
     }
 
     async detectObjects() {
@@ -58,20 +65,31 @@ class CameraComponent extends React.Component<CameraProps> {
       } catch (error) {}
     }
 
+    showAlert() {
+      Alert.alert('Info', 'If you are not pleased with the result, please try again from a closer distance or try to load a picture from gallery.');
+    }
+
+    changeCameraMode() {
+      this.setState({ cameraMode: false });
+    }
+
+    takePhoto(image: any) {
+      if (image) {
+        this.setState({ 
+          image: { uri: image.uri },
+        });
+        this.detectObjects();
+      }
+
+      this.changeCameraMode();
+    }
+
     renderNoPermissionWarning() {
       return (
         <View>
           <Text>In order to use this functionality please allow camera access!</Text>
         </View>
       )
-    }
-
-    takePhoto(image: any) {
-      this.setState({ 
-        cameraMode: false,
-        image: { uri: image.uri }
-      });
-      this.detectObjects();
     }
 
     renderCameraPage() {
@@ -85,14 +103,17 @@ class CameraComponent extends React.Component<CameraProps> {
             </TouchableOpacity>
             <View style={styles.buttonsContainer}>
               <TouchableOpacity style={styles.takePhotoButton} onPress={() => this.setState({ cameraMode: true })}>
-                <Text style={styles.takePhotoButtonText}>Take photo</Text>
+                <Entypo name="camera" size={50} color={secondaryColor} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.takePhotoButton} onPress={() => this.props.clearPredictions()}>
-                <Text style={styles.takePhotoButtonText}>Clear predictions</Text>
+                <Text style={styles.takePhotoButtonText}>Clear results</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.takePhotoButton} onPress={() => this.showAlert()}>
+                <Feather name="info" size={50} color={secondaryColor} />
               </TouchableOpacity>
             </View>
             <View style={styles.predictionsContainer}>
-              { !loadPredictionsInProgress ? this.renderPrediction(predictions) : <ActivityIndicator size="large" color="#000"/> }
+              { !loadPredictionsInProgress ? this.renderPrediction(predictions) : <ActivityIndicator size="large" color={mainColor}/> }
             </View>
         </View>
       )
@@ -105,39 +126,36 @@ class CameraComponent extends React.Component<CameraProps> {
             predictions &&
               (predictions.length ? predictions.map((prediction: IPrediction) => {
                 return (
-                  <Text key={prediction.tagName}>{prediction.tagName}</Text>
+                  <PredictionCardComponent key={prediction.tagId} prediction={prediction}/>
                 )
               }) : 
-              <Text>No dashboard light was found. Try to take a photo from a closer distance or load one from gallery.</Text>) 
+              <Text style={styles.noPredictionWarning}>No dashboard light was found. Try to take a photo from a closer distance or load one from gallery.</Text>) 
           }
-          <Text>
-            {
-              predictions && 
-                (predictions.length ? 
-                  <Text style={styles.notGoodEnoughMessage}>
-                    If you are not pleased with the prediction result, please try again from a closer distance or try to load a picture from gallery.
-                  </Text> : null)
-            }
-          </Text>
         </View>
       )
     }
 
     render() {
-        const { camera } = this.props;
+        const { camera, cameraRoll } = this.props;
         const { isTfReady, isModelReady, cameraMode } = this.state;
+
         if (cameraMode) {
           return (
-            <TakePictureComponent camera={camera} takePhoto={(image: any) => this.takePhoto(image)}/>
+            <TakePictureComponent 
+              camera={camera} 
+              getCameraPermission={() => this.props.getCameraPermission()} 
+              goBack={() => this.changeCameraMode()}
+              takePhoto={(image: any) => this.takePhoto(image)
+            }/>
           );
         } else {
           return (
             <View style={styles.container}>
               { 
                 isModelReady && isTfReady ? 
-                (camera === "denied" ? this.renderNoPermissionWarning() : this.renderCameraPage()) : 
+                (cameraRoll === "denied" ? this.renderNoPermissionWarning() : this.renderCameraPage()) : 
                 <View style={styles.loadingContainer}>
-                  <ActivityIndicator style={styles.activityLoader} color="#000" size="large"/>
+                  <ActivityIndicator style={styles.activityLoader} color={mainColor} size="large"/>
                   <Text>Please wait for the model to load.</Text> 
                 </View>
               }

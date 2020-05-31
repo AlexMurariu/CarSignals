@@ -7,7 +7,8 @@ import MapView from 'react-native-maps';
 import { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-import Toast from 'react-native-root-toast';
+import { showToaster } from '../../utils';
+import { mainColor } from '../../constants';
 
 class CarServiceComponent extends React.Component<CarServiceProps> {
     state = {
@@ -19,19 +20,6 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
 
     componentDidMount() {
         this.getLocationAsync();
-    }
-
-    showToaster() {
-        if (this.state.locationResult !== null || this.state.markers.length) {
-            Toast.show("Press on the markers for additional information", {
-                duration: 5000,
-                shadow: true,
-                animation: true,
-                hideOnPress: true,
-                position: 100,
-                delay: 0,
-            }) 
-        }
     }
 
     getLocationAsync = async () => {
@@ -68,7 +56,9 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
             }
         });
 
-        this.showToaster();
+        if (this.state.locationResult !== null || this.state.markers.length) {
+            showToaster("Press on the markers for additional information");
+        }
     };
 
     async getServices(parameters) {
@@ -131,7 +121,7 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
                 {this.state.locationResult === null ||
                 !this.state.markers.length ? (
                     <View>
-                        <ActivityIndicator size="large" color="#000" />
+                        <ActivityIndicator size="large" color={mainColor} />
                         <Text>Finding your current location...</Text>
                     </View>
                 ) : this.state.hasLocationPermissions === false ? (

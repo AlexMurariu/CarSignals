@@ -2,9 +2,10 @@ import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { Button, Card, TextInput } from 'react-native-paper';
 import { LoginUserProps } from './types';
-import Toast from 'react-native-root-toast';
 import NavigationService from '../../navigation/NavigationService';
 import { styles } from './LoginComponentStyle';
+import { showToaster } from '../../utils';
+import { mainColor } from '../../constants';
 
 export default class LoginComponent extends React.Component<LoginUserProps> {
     state = {
@@ -18,17 +19,6 @@ export default class LoginComponent extends React.Component<LoginUserProps> {
         if (email && password) {
             this.setState({email, password})
         }
-    }
-
-    showToaster = (error: string) => {
-        Toast.show(error, {
-            duration: 3000,
-            shadow: true,
-            animation: true,
-            hideOnPress: true,
-            position: 100,
-            delay: 0,
-        }) 
     }
 
     handleLogin = () => {
@@ -47,8 +37,8 @@ export default class LoginComponent extends React.Component<LoginUserProps> {
         } = this.props;
         return (
             <View style={styles.container}>
-                {error ? this.showToaster(error) : null}
-                {loadUserInProgress ? <ActivityIndicator size="large" color="#000"/> : 
+                {error ? showToaster(error, 3000) : null}
+                {loadUserInProgress ? <ActivityIndicator size="large" color={mainColor}/> : 
                 <Card style={styles.card}>
                     <Card.Content>
                         <TextInput

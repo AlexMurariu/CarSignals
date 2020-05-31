@@ -1,16 +1,27 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 import { store } from './state/store';
-import { LoginContainer, SignUpContainer, CameraContainer, CarServicesContainer, HistoryContainer, GuideContainer, HeaderContainer } from './containers';
+import { LoginContainer, SignUpContainer, CameraContainer, CarServicesContainer, HistoryContainer, HeaderContainer } from './containers';
 import NavigationService from './navigation/NavigationService';
 import { createDrawerNavigator } from 'react-navigation-drawer';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { mainColor } from './constants';
+
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: mainColor,
+    accent: '#f1c40f',
+  },
+};
 
 const DrawerNavigator = createDrawerNavigator({
     History: {screen: HistoryContainer},
     Camera: {screen: CameraContainer},
     CarServices: {screen: CarServicesContainer},
-    Guide: {screen: GuideContainer}
 })
 
 const SwitchNavigator = createSwitchNavigator({
@@ -34,11 +45,13 @@ const AppContainer = createAppContainer(SwitchNavigator);
 export default class App extends React.Component {
   render() {
     return <Provider store={store}>
-      <HeaderContainer />
-      <AppContainer ref={navigatorRef => {
-          NavigationService.setTopLevelNavigator(navigatorRef)
-        }}
-      />
+      <PaperProvider theme={theme}>
+        <HeaderContainer />
+          <AppContainer ref={navigatorRef => {
+            NavigationService.setTopLevelNavigator(navigatorRef)
+          }}
+        />
+      </PaperProvider>
     </Provider>;
   }
 }

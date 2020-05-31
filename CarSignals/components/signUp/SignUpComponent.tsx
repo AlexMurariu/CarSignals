@@ -5,23 +5,14 @@ import { styles } from './SignUpComponentStyle';
 import { SignUpUserProps } from './types';
 import Toast from 'react-native-root-toast';
 import NavigationService from '../../navigation/NavigationService';
+import { showToaster } from '../../utils';
+import { mainColor } from '../../constants';
 
 export default class SignupComponent extends React.Component<SignUpUserProps> {
     state = {
         email: '',
         password: '',
         confirmPassowrd: ''
-    }
-
-    showToaster = (error: string) => {
-        Toast.show(error, {
-            duration: 3000,
-            shadow: true,
-            animation: true,
-            hideOnPress: true,
-            position: 100,
-            delay: 0,
-        }) 
     }
 
     handleSignUp = () => {
@@ -40,8 +31,8 @@ export default class SignupComponent extends React.Component<SignUpUserProps> {
         } = this.props;
         return (
             <View style={styles.container}>
-                {error ? this.showToaster(error) : null}
-                {loadUserInProgress ? <ActivityIndicator size="large" color="#000"/> :
+                {error ? showToaster(error, 3000) : null}
+                {loadUserInProgress ? <ActivityIndicator size="large" color={mainColor}/> :
                 <Card style={styles.card}>
                     <Card.Content>
                         <TextInput

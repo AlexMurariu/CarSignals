@@ -1,4 +1,6 @@
+import { mainColor, secondaryColor } from './../../constants/colorConstants';
 import { StyleSheet } from 'react-native';
+import { color } from 'react-native-reanimated';
 
 export const styles = StyleSheet.create({
     container: {
@@ -25,7 +27,7 @@ export const styles = StyleSheet.create({
         width: '80%',
         height: '30%',
         padding: 10,
-        borderColor: '#236ACD',
+        borderColor: mainColor,
         borderWidth: 5,
         borderStyle: 'dashed',
         borderRadius: 10,
@@ -42,25 +44,34 @@ export const styles = StyleSheet.create({
       },
       buttonsContainer: {
         display: "flex",
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width: "82%",
+        justifyContent: 'space-between'
       },
       takePhotoButton: {
-        backgroundColor: '#236ACD',
+        backgroundColor: mainColor,
         padding: 10,
         borderRadius: 10,
         marginTop: 10,
         marginLeft: 5,
-        marginRight: 5
+        marginRight: 5,
+        display: "flex",
+        justifyContent: "center"
       },
       takePhotoButtonText: {
-        color: '#fff',
+        color: secondaryColor,
         fontSize: 20
       },
       predictionsContainer: {
           marginTop: 20,
-          width: "60%"
+          width: "80%"
       },
       notGoodEnoughMessage: {
-        
+        marginTop: 20
+      },
+      noPredictionWarning: {
+        backgroundColor: "#ffc970",
+        padding: 10,
+        borderRadius: 10
       }
 })

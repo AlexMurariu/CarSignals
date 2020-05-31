@@ -1,4 +1,6 @@
 export type TakePhotoProps = {
-    camera: any,
-    takePhoto: Function
+    camera: any;
+    getCameraPermission: Function;
+    goBack: Function;
+    takePhoto: Function;
 }

@@ -1,42 +1,28 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { styles } from './TakePictureComponentStyle';
 import { TakePhotoProps } from './types';
 import { Camera } from 'expo-camera';
-import * as Permissions from 'expo-permissions';
 import { Col, Grid } from "react-native-easy-grid";
 import { Ionicons } from '@expo/vector-icons';
-import Toast from 'react-native-root-toast';
 import * as MediaLibrary from 'expo-media-library';
+import { showToaster } from '../../utils';
+import * as Permissions from 'expo-permissions';
 
 class TakePictureComponent extends React.Component<TakePhotoProps> {
     camera = null;
     state = {
-        cameraPermission: false,
         image: null,
         flashMode: Camera.Constants.FlashMode.off,
         cameraType: Camera.Constants.Type.back
     }
 
     async componentDidMount() {
-        const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+        const camera = await Permissions.askAsync(Permissions.CAMERA);
 
-        if (cameraPermission.status === 'denied') {
-            this.props.takePhoto(null);
-        } else {
-            this.setState({ cameraPermission });
-        }
-    }
-
-    showToaster(message: string) {
-        Toast.show(message, {
-            duration: 5000,
-            shadow: true,
-            animation: true,
-            hideOnPress: true,
-            position: 100,
-            delay: 0,
-        }) 
+        if (camera.status === 'denied') {
+            this.props.goBack();
+        }   
     }
 
     setFlashMode() {
@@ -49,8 +35,8 @@ class TakePictureComponent extends React.Component<TakePhotoProps> {
         const asset = await MediaLibrary.createAssetAsync(image.uri);
 
         MediaLibrary.createAlbumAsync('C-CT Scan', asset)
-            .then(() => this.showToaster("Picture saved in gallery"))
-            .catch((error: string) => this.showToaster("Something happend while taking the picture. Please try again."));
+            .then(() => showToaster("Picture saved in gallery"))
+            .catch(() => showToaster("Something happend while taking the picture. Please try again."));
 
         this.props.takePhoto(image);
     }
@@ -81,6 +67,15 @@ class TakePictureComponent extends React.Component<TakePhotoProps> {
                             <View style={styles.buttonContainer}>
                                 <View style={styles.buttonContent} />
                             </View>
+                        </TouchableOpacity>
+                    </Col>
+                    <Col style={styles.alignCenter}>
+                        <TouchableOpacity onPress={() => this.props.goBack()}>
+                            <Ionicons
+                                name={"md-arrow-back"}
+                                color="white"
+                                size={30}
+                            />
                         </TouchableOpacity>
                     </Col>
                 </Grid>
