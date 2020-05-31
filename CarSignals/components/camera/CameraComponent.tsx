@@ -14,6 +14,7 @@ import { PredictionCardComponent } from '../predictionCard';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
 import { mainColor, secondaryColor } from '../../constants';
+import { showAlert } from '../../utils';
 
 class CameraComponent extends React.Component<CameraProps> {
     state = {
@@ -64,11 +65,7 @@ class CameraComponent extends React.Component<CameraProps> {
         }
       } catch (error) {}
     }
-
-    showAlert() {
-      Alert.alert('Info', 'If you are not pleased with the result, please try again from a closer distance or try to load a picture from gallery.');
-    }
-
+    
     changeCameraMode() {
       this.setState({ cameraMode: false });
     }
@@ -108,7 +105,7 @@ class CameraComponent extends React.Component<CameraProps> {
               <TouchableOpacity style={styles.takePhotoButton} onPress={() => this.props.clearPredictions()}>
                 <Text style={styles.takePhotoButtonText}>Clear results</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.takePhotoButton} onPress={() => this.showAlert()}>
+              <TouchableOpacity style={styles.takePhotoButton} onPress={() => showAlert('Info', 'If you are not pleased with the result, please try again from a closer distance or try to load a picture from gallery.')}>
                 <Feather name="info" size={50} color={secondaryColor} />
               </TouchableOpacity>
             </View>

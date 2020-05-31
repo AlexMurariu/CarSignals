@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         marginRight: 10,
         position: "absolute",
-        right: 0,
+        right: 0
     },
     nameContainer: {
         display: 'flex',
