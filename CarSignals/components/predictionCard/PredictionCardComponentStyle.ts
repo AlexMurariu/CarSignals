@@ -13,12 +13,17 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         width: "100%"
     },
+    dateContainer: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center", 
+        position: "absolute",
+        right: 0
+    },
     dateText: {
         color: secondaryColor,
         fontSize: 18,
         marginRight: 10,
-        position: "absolute",
-        right: 0
     },
     nameContainer: {
         display: 'flex',

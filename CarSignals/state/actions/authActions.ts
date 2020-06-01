@@ -65,12 +65,12 @@ export const login = (email: string, password: string): LoginStartedAction => {
     }
 };
 
-export const loginSuccess = (email: string, password: string): LoginSuccessAction => {
+export const loginSuccess = (email: string, uid: string): LoginSuccessAction => {
     return {
         type: actionTypes.LOGIN_SUCCESS,
         payload: {
             email,
-            password
+            uid
         }
     }
 }
@@ -92,12 +92,12 @@ export const signUp = (email: string, password: string): SignUpStartedAction => 
     }
 };
 
-export const signUpSuccess = (email: string, password: string): SignUpSuccessAction => {
+export const signUpSuccess = (email: string, uid: string): SignUpSuccessAction => {
     return {
         type: actionTypes.SIGNUP_SUCCESS,
         payload: {
             email,
-            password
+            uid
         }
     }
 }

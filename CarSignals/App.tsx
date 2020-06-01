@@ -19,8 +19,8 @@ const theme = {
 };
 
 const DrawerNavigator = createDrawerNavigator({
-    History: {screen: HistoryContainer},
     Camera: {screen: CameraContainer},
+    History: {screen: HistoryContainer},
     CarServices: {screen: CarServicesContainer},
 })
 
@@ -41,6 +41,7 @@ const SwitchNavigator = createSwitchNavigator({
 )  
 
 const AppContainer = createAppContainer(SwitchNavigator);
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
   render() {

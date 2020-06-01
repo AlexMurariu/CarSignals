@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "./PredictionCardComponentStyle"; 
 import { PredictionDetailsComponent } from "../predictionDetails";
 import { predictionNames } from "../../constants";
-import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons, FontAwesome5, MaterialIcons } from '@expo/vector-icons'; 
 
 class PredictionCardComponent extends React.Component<PredictionCardProps> {
     state = {
@@ -16,7 +16,7 @@ class PredictionCardComponent extends React.Component<PredictionCardProps> {
     }
 
     getNameWithUppercase(tagName) {
-        return tagName.charAt(0).toUpperCase() + tagName.slice(1)
+        return tagName.charAt(0).toUpperCase() + tagName.slice(1);
     }
 
     renderIcon(tagName: string) {
@@ -32,16 +32,24 @@ class PredictionCardComponent extends React.Component<PredictionCardProps> {
     }
 
     render() {
-        const { prediction } = this.props;
+        const { prediction, deleteOption } = this.props;
         const { showModal } = this.state;
-
+      
         return (
             <TouchableOpacity key={prediction.tagId} style={styles.container} onPress={() => this.toggleModal()}>
                 <View style={styles.nameContainer}>
                     {this.renderIcon(prediction.tagName)}
                     <Text style={styles.nameText}>{this.getNameWithUppercase(prediction.tagName)}</Text>
                 </View>
-                <Text style={styles.dateText} key={prediction.tagName}>{prediction.predictionDate}</Text>
+                <View style={styles.dateContainer}>
+                    <Text style={styles.dateText} key={prediction.tagName}>{prediction.predictionDate}</Text>
+                    { 
+                        deleteOption && 
+                            <TouchableOpacity onPress={() => this.props.deletePrediction(prediction.uid)}>
+                                <MaterialIcons  name="delete" size={50} color="white" />
+                            </TouchableOpacity>
+                    }
+                </View>
                 <PredictionDetailsComponent showModal={showModal} toggleModal={() => this.toggleModal()} prediction={prediction}/>
             </TouchableOpacity>
         );

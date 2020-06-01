@@ -14,7 +14,8 @@ import { PredictionCardComponent } from '../predictionCard';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
 import { mainColor, secondaryColor } from '../../constants';
-import { showAlert } from '../../utils';
+import { showAlert, showToaster } from '../../utils';
+import Firebase from '../../firebase.config';
 
 class CameraComponent extends React.Component<CameraProps> {
     state = {
@@ -81,6 +82,20 @@ class CameraComponent extends React.Component<CameraProps> {
       this.changeCameraMode();
     }
 
+    addToHistory(predictions: IPrediction[]) {
+      predictions.forEach((prediction: IPrediction) => {
+        Firebase.database().ref(`/history/${this.props.userUid}`).push({
+          boundingBox: prediction.boundingBox,
+          probability: prediction.probability,
+          predictionDate: prediction.predictionDate,
+          tagId: prediction.tagId,
+          tagName: prediction.tagName
+        })
+      })
+      this.props.addPredictionsToHistory(predictions);
+      showToaster("Added to history.");
+    }
+
     renderNoPermissionWarning() {
       return (
         <View>
@@ -119,6 +134,14 @@ class CameraComponent extends React.Component<CameraProps> {
     renderPrediction = (predictions: IPrediction[]) => {
       return (
         <View>
+          {
+            predictions && 
+              (predictions.length ? 
+                <TouchableOpacity style={styles.addButton} onPress={() => this.addToHistory(predictions)}>
+                  <Text style={styles.addButtonText}>Add to history</Text>
+                </TouchableOpacity> 
+                : null)
+          }
           { 
             predictions &&
               (predictions.length ? predictions.map((prediction: IPrediction) => {
@@ -133,9 +156,9 @@ class CameraComponent extends React.Component<CameraProps> {
     }
 
     render() {
-        const { camera, cameraRoll } = this.props;
+        const { camera, cameraRoll, loadUserInProgress } = this.props;
         const { isTfReady, isModelReady, cameraMode } = this.state;
-
+    
         if (cameraMode) {
           return (
             <TakePictureComponent 
@@ -149,12 +172,12 @@ class CameraComponent extends React.Component<CameraProps> {
           return (
             <View style={styles.container}>
               { 
-                isModelReady && isTfReady ? 
+                !loadUserInProgress ? (isModelReady && isTfReady ? 
                 (cameraRoll === "denied" ? this.renderNoPermissionWarning() : this.renderCameraPage()) : 
                 <View style={styles.loadingContainer}>
                   <ActivityIndicator style={styles.activityLoader} color={mainColor} size="large"/>
                   <Text>Please wait for the model to load.</Text> 
-                </View>
+                </View>) : <ActivityIndicator style={styles.activityLoader} color={mainColor} size="large"/>
               }
             </View>
           );

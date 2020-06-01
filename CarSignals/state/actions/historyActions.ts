@@ -1,16 +1,17 @@
 import { actionTypes } from "../types"
+import { IPrediction } from "../reducers/predictionReducer"
 
-export type GetDetectedSignals = {
+export type GetHistory = {
     type: string,
     payload: any
 }
 
-export type GetDetectedSignalsSuccess = {
+export type GetHistorySuccess = {
     type: string,
     payload: any
 }
 
-export type GetDetectedSignalsFailed = {
+export type GetHistoryFailed = {
     type: string,
     payload: any
 }
@@ -30,63 +31,54 @@ export type DeleteDetectedSignalFailed = {
     payload: any
 }
 
-export type HistoryActions = GetDetectedSignals
-                            | GetDetectedSignalsSuccess
-                            | GetDetectedSignalsFailed
+export type HistoryActions = GetHistory
+                            | GetHistorySuccess
+                            | GetHistoryFailed
                             | DeleteDetectedSignal
                             | DeleteDetectedSignalSuccess
                             | DeleteDetectedSignalFailed
 
-export const getDetectedSignals = (email: string) => {
+export const getHistory = (uid: string) => {
     return {
-        type: actionTypes.GET_DETECTED_SIGNALS,
+        type: actionTypes.GET_HISTORY,
         payload: {
-            email,
+            uid
         }
     }
 }
 
-export const getDetectedSignalsSuccess = (email: string, history: any) => {
+export const getHistorySuccess = (history: any) => {
     return {
-        type: actionTypes.GET_DETECTED_SIGNALS_SUCCESS,
+        type: actionTypes.GET_HISTORY_SUCCESS,
         payload: {
-            email,
             history
         }
     }
 }
 
-export const getDetectedSignalsFailed = (error: any) => {
+export const getHistoryFailed = (error: any) => {
     return {
-        type: actionTypes.GET_DETECTED_SIGNALS_FAILED,
+        type: actionTypes.GET_HISTORY_FAILED,
         payload: {
             error,
         }
     }
 }
 
-export const deleteDetectedSignal = (email: string, id: string) => {
+export const deleteDetectedSignal = (id: string) => {
     return {
         type: actionTypes.DELETE_DETECTED_SIGNAL,
         payload: {
-            email,
             id
         }
     }
 }
 
-export const deleteDetectedSignalSuccess = () => {
+export const addPredictionsToHistory = (predictions: IPrediction[]) => {
     return {
-        type: actionTypes.DELETE_DETECTED_SIGNAL_SUCCESS,
-        payload: null
-    }
-}
-
-export const deleteDetectedSignalFailed = (error: string) => {
-    return {
-        type: actionTypes.DELETE_DETECTED_SIGNAL_FAILED,
+        type: actionTypes.ADD_PREDICTIONS_TO_HISTORY,
         payload: {
-            error
+            predictions
         }
     }
 }

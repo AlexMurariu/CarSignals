@@ -1,3 +1,4 @@
+import { GetHistoryEpic } from './historyEpic';
 import { GetCameraPermissionEpic, GetCameraRollPermissionEpic } from './permissionEpics';
 import { combineEpics } from "redux-observable";
 import { LoginEpic, SignUpEpic, LogoutEpic } from "./authEpic";
@@ -9,5 +10,6 @@ export const rootEpic = combineEpics(
     LogoutEpic,
     GetCameraRollPermissionEpic,
     GetCameraPermissionEpic,
-    GetPredictionsEpic
+    GetPredictionsEpic,
+    GetHistoryEpic
 );

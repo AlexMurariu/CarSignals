@@ -17,12 +17,11 @@ import {
 } from './permissionActions';
 
 import { 
-    getDetectedSignals, 
-    getDetectedSignalsFailed, 
-    getDetectedSignalsSuccess, 
+    getHistory, 
+    getHistorySuccess, 
+    getHistoryFailed, 
     deleteDetectedSignal, 
-    deleteDetectedSignalSuccess, 
-    deleteDetectedSignalFailed,
+    addPredictionsToHistory,
     HistoryActions 
 } from './historyActions';
 
@@ -49,12 +48,11 @@ export {
     logout,
     logoutSuccess,
     logoutFailed,
-    getDetectedSignals, 
-    getDetectedSignalsFailed, 
-    getDetectedSignalsSuccess, 
+    getHistory, 
+    getHistorySuccess, 
+    getHistoryFailed, 
     deleteDetectedSignal, 
-    deleteDetectedSignalSuccess, 
-    deleteDetectedSignalFailed,
+    addPredictionsToHistory,
     getCameraRollPermission,
     getCameraRollPermissionSuccess,
     getCameraRollPermissionFailed,

@@ -8,10 +8,12 @@ import { LoginComponent } from "../components";
 function mapStateToProps (state: RootState): LoginUserDataState {
     const user = state.auth;
     const loadUserInProgress = state.ui.loadUserInProgress;
+    const loadingLogOut = state.ui.loadingLogOut;
 
     return {
         user,
-        loadUserInProgress
+        loadUserInProgress,
+        loadingLogOut
     }
 }
 

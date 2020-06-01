@@ -14,6 +14,7 @@ interface IPrediction {
     predictionDate: string;
     tagId: string;
     tagName: string;
+    uid: string;
 }
 
 const PredictionStateRecord = Record({
@@ -26,7 +27,8 @@ const PredictionStateRecord = Record({
     probability: null,
     predictionDate: '',
     tagId: '',
-    tagName: ''
+    tagName: '',
+    uid: ''
 })
 
 class PredictionState extends PredictionStateRecord implements IPrediction {
@@ -94,6 +96,7 @@ const predictionReducer = (state: PredictionListState = initialState, action: Pr
 
 export {
     PredictionListState,
+    PredictionState,
     IPrediction,
     predictionReducer
 }

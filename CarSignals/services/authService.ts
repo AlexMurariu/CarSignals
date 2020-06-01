@@ -16,8 +16,9 @@ class AuthService {
     loginUser(email: string, password: string): Promise<any> {
         return Firebase.auth()
                     .signInWithEmailAndPassword(email, password)
-                    .then(() => { 
-                        return loginSuccess(email, password);
+                    .then((data) => {
+                        const { email, uid } = data.user;
+                        return loginSuccess(email, uid);
                     })
                     .catch((error) => {
                         return loginFailed(error.message);
@@ -27,8 +28,9 @@ class AuthService {
     signUpUser(email: string, password: string): Promise<any> {
         return Firebase.auth()
                     .createUserWithEmailAndPassword(email, password)
-                    .then(() => {
-                        return signUpSuccess(email, password);
+                    .then((data) => {
+                        const { email, uid } = data.user;
+                        return signUpSuccess(email, uid);
                     })
                     .catch((error) => {
                         return signUpFailed(error.message);

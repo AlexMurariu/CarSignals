@@ -13,20 +13,12 @@ export default class LoginComponent extends React.Component<LoginUserProps> {
         password: ''
     }
 
-    componentDidMount = () => {
-        const { email, password } = this.props.user;
-        
-        if (email && password) {
-            this.setState({email, password})
-        }
-    }
-
     handleLogin = () => {
         const { email, password } = this.state
 
         if (email && password) {
             this.props.login(email, password);
-            NavigationService.navigate('History');
+            NavigationService.navigate('Camera');
         }
     }
 
@@ -35,6 +27,7 @@ export default class LoginComponent extends React.Component<LoginUserProps> {
             user: { error },
             loadUserInProgress,
         } = this.props;
+        
         return (
             <View style={styles.container}>
                 {error ? showToaster(error, 3000) : null}

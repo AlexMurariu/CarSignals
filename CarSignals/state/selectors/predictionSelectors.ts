@@ -15,7 +15,7 @@ export const getPredictionWithHighestProbability = createSelector<RootState, Arr
             return null;
         }
         const filteredPrediction = predictions.filter((prediction: IPrediction) => {
-            return prediction.probability > 0.3;
+            return prediction.probability > 0.4;
         });
 
         const predictionsWithHighestProbability = _.uniqBy(filteredPrediction, (prediction: IPrediction) => { return prediction.tagName });

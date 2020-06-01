@@ -3,16 +3,19 @@ import { RootState } from "../state/reducers";
 import { Dispatch, bindActionCreators } from "redux";
 import { CameraComponent } from "../components";
 import { CameraDispatch, CameraState } from "../components/camera/types";
-import { getPredictions, clearPredictions, getCameraRollPermission, getCameraPermission } from "../state/actions";
+import { getPredictions, clearPredictions, getCameraRollPermission, getCameraPermission, addPredictionsToHistory } from "../state/actions";
 import { getPredictionWithHighestProbability } from "../state/selectors";
 
 function mapStateToProps (state: RootState): CameraState {
-    const { loadPredictionsInProgress } = state.ui;
+    const { loadPredictionsInProgress, loadUserInProgress } = state.ui;
     const { camera, cameraRoll } = state.permissions;
     const predictions = getPredictionWithHighestProbability(state);
+    const userUid = state.auth.uid;
 
     return {
         loadPredictionsInProgress,
+        loadUserInProgress,
+        userUid,
         camera,
         cameraRoll,
         predictions
@@ -25,7 +28,8 @@ function mapDispatchToProps (dispatch: Dispatch): CameraDispatch {
             getCameraPermission,
             getCameraRollPermission,
             getPredictions,
-            clearPredictions
+            clearPredictions,
+            addPredictionsToHistory
         }, dispatch)
     }
 }
