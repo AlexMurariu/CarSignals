@@ -20,7 +20,7 @@ export default class SignupComponent extends React.Component<SignUpUserProps> {
 
         if (email && password) {
             this.props.signUp(email, password);
-            NavigationService.navigate('History');
+            NavigationService.navigate('Camera');
         }
     }
 

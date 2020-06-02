@@ -3,17 +3,26 @@ import { View, Text, Modal, Alert } from 'react-native'
 import { styles } from './HeaderComponentStyle';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import NavigationService from '../../navigation/NavigationService';
-import { IconButton } from 'react-native-paper';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';  
 import { HeaderProps } from './types';
 import { secondaryColor } from '../../constants';
+import NetInfo from "@react-native-community/netinfo";
+import { showAlert } from '../../utils';
 
 export default class HeaderComponent extends Component<HeaderProps> {
     state = {
-        displayDialog: false
+        displayDialog: false,
+        noInternetConnection: false
     }
 
     componentDidMount() {
+        NetInfo.addEventListener(state => {
+            if (!state.isConnected) {
+                showAlert('Error', 'No internet connection');
+                this.setState({ noInternetConnection: !state.isConnected })
+            }
+        });
+
         if (this.props.user.error) {
             NavigationService.navigate("Login");
         }
@@ -36,8 +45,9 @@ export default class HeaderComponent extends Component<HeaderProps> {
     }
 
     render() {
-        if (this.props.user.loadUserDone && !this.props.user.email) {
+        if ((this.props.user.loadUserDone && !this.props.user.email) || this.state.noInternetConnection) {
             NavigationService.navigate("Login");
+            return null;
         } 
         return (
             this.props.user.loadUserDone && this.props.user.email ?

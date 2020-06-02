@@ -8,11 +8,11 @@ export const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: 15,
         paddingHorizontal: 15
     }, 
     predictionsContainer: {
-        width: "100%"
+        width: "100%",
+        height: "100%",
     },
     noItmesMessage: {
         fontSize: 16,
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        marginBottom: 10
+        marginVertical: 10
     },
     filterButton: {
         backgroundColor: mainColor,
