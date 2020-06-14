@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Alert, Platform } from 'react-native';
+import { View, Text } from 'react-native';
 import { styles } from './CarServiceComponentStyle';
 import { CarServiceProps } from './types';
 import { ActivityIndicator } from 'react-native-paper';

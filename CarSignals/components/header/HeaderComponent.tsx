@@ -12,22 +12,31 @@ import { showAlert } from '../../utils';
 export default class HeaderComponent extends Component<HeaderProps> {
     state = {
         displayDialog: false,
-        noInternetConnection: false
+        noInternetConnection: false,
+        unsubscribeFunction: null
     }
 
     componentDidMount() {
-        NetInfo.addEventListener(state => {
+        const unsubscribe = NetInfo.addEventListener(state => {
             if (!state.isConnected) {
                 showAlert('Error', 'No internet connection');
                 this.setState({ noInternetConnection: !state.isConnected })
             }
         });
 
+        this.setState({
+            unsubscribeFunction: unsubscribe
+        })
+
         if (this.props.user.error) {
             NavigationService.navigate("Login");
         }
     }
-    
+
+    componentWillUnmount() {
+        this.state.unsubscribeFunction();
+    }
+
     logout = () => {
         this.props.clearPredictions();
         this.props.logout();

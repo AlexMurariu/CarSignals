@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image, Modal, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { styles } from './CameraComponentStyle';
 import { CameraProps } from './types';

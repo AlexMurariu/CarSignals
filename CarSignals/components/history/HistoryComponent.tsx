@@ -27,7 +27,9 @@ class HistoryComponent extends React.Component<HistoryProps> {
 
     deletePrediction(predictionKey: string) {
         this.props.deleteDetectedSignal(predictionKey);
-        Firebase.database().ref(`/history/${this.props.user.uid}`).child(predictionKey).remove();
+        Firebase.database().ref(`/history/${this.props.user.uid}`)
+            .child(predictionKey)
+            .remove();
     }
 
     filterByLastWeek() {
