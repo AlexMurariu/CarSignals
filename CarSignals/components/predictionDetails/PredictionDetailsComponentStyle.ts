@@ -43,7 +43,8 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
     },
     textContent: {
-        marginBottom: 10
+        marginBottom: 10,
+        textAlign: 'justify'
     },
     causeContainer: {
         marginBottom: 20
