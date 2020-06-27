@@ -32,7 +32,7 @@ class CarServiceComponent extends React.Component<CarServiceProps> {
             this.setState({ hasLocationPermissions: true });
         }
 
-        let location = await Location.getCurrentPositionAsync({});
+        let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
 
         this.setState({ locationResult: JSON.stringify(location) });
 

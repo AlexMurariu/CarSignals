@@ -24,6 +24,15 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.licenta.cct_scan",
+      "config": {
+        "googleMaps": { 
+          "apiKey": "AIzaSyAM0nFytNaKuiu-m6XInr06vrLi312-7kk"
+        }
+      },
+      "versionCode": 1
     }
   }
 }
